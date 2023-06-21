@@ -1,3 +1,4 @@
+# Qiao's method
 library(matrixcalc)
 
 blockwise_Frob <- function(ma, M){
@@ -120,6 +121,7 @@ ProxAlg_FGM <- function(S, p, M, gamma, Eta="Auto", n.iteration=2000){
   SupMat <- matrix(0, nrow=p, ncol=p)
   SupMat[Theta.frob > 0] <- 1
   
+  
   return (list(ThetaMathat=Theta.hat, blockFrob=Theta.frob, Support=SupMat, 
-               converge=converge.indicator, num.iter=t))
+               converge=converge.indicator, num.iter=t, min.obj=obj.new))
 }

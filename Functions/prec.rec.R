@@ -17,21 +17,35 @@ prec.rec <- function(G.true, G.mat, type=c("AND","OR")){
   TP <- 0; TN <- 0; FP <- 0; FN <- 0
   
   if(type=="AND"){
-    for(i in 1:p){
-      for(j in 1:p){
-        if(i!=j & G.true[i,j]==1 & (G.mat[i,j]==1 & G.mat[j,i]==1)) TP <- TP + 1
-        if(i!=j & G.true[i,j]==1 & (G.mat[i,j]==0 & G.mat[j,i]==0)) FN <- FN + 1
-        if(i!=j & G.true[i,j]==0 & (G.mat[i,j]==1 & G.mat[j,i]==1)) FP <- FP + 1
-        if(i!=j & G.true[i,j]==0 & (G.mat[i,j]==0 & G.mat[j,i]==0)) TN <- TN + 1
+    for(i in 1:(p-1)){
+      for(j in (i+1):p){
+        if(G.mat[i,j] == 1 & G.mat[j,i] == 1){
+          if(G.true[i,j] == 1)
+            TP <- TP + 1
+          else
+            FP <- FP + 1
+        }else{
+          if(G.true[i,j] == 1)
+            FN <- FN + 1
+          else
+            TN <- TN + 1
+        }
       }
     }
   }else if(type=="OR"){
-    for(i in 1:p){
-      for(j in 1:p){
-        if(i!=j & G.true[i,j]==1 & (G.mat[i,j]==1 | G.mat[j,i]==1)) TP <- TP + 1
-        if(i!=j & G.true[i,j]==1 & (G.mat[i,j]==0 | G.mat[j,i]==0)) FN <- FN + 1
-        if(i!=j & G.true[i,j]==0 & (G.mat[i,j]==1 | G.mat[j,i]==1)) FP <- FP + 1
-        if(i!=j & G.true[i,j]==0 & (G.mat[i,j]==0 | G.mat[j,i]==0)) TN <- TN + 1
+    for(i in 1:(p-1)){
+      for(j in (i+1):p){
+        if(G.mat[i,j] == 1 | G.mat[j,i] == 1){
+          if(G.true[i,j] == 1)
+            TP <- TP + 1
+          else
+            FP <- FP + 1
+        }else{
+          if(G.true[i,j] == 1)
+            FN <- FN + 1
+          else
+            TN <- TN + 1
+        }
       }
     }
   }
